@@ -1,0 +1,20 @@
+﻿<Window x:Class="WindowsClient.Pages.SignIn"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindowsClient.Pages"
+        mc:Ignorable="d"
+        Title="SignIn" Height="412" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="txt_email" HorizontalAlignment="Stretch" Margin="40,10,40,10" Text="Email" TextWrapping="Wrap" VerticalAlignment="Bottom" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
+        <TextBox x:Name="txt_password" Margin="40,10,40,0" Text="Password" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="1" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
+        <Button x:Name="btn_login" Content="Button" HorizontalAlignment="Stretch" Margin="40,10,40,0" VerticalAlignment="Top" Grid.Row="2" Click="btn_login_Click"/>
+
+    </Grid>
+</Window>

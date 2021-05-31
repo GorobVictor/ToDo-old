@@ -1,5 +1,9 @@
+using AutoMapper;
 using Core.AutoMapper;
+using Core.Interfaces;
 using Infrastructure;
+using Infrastructure.Context;
+using Infrastructure.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,8 +37,6 @@ namespace WebToDo
         {
             services.AddLogging();
 
-            services.AddAutoMapper(typeof(MapperProfile));
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
@@ -60,6 +62,15 @@ namespace WebToDo
                    .AsImplementedInterfaces()
                    .WithScopedLifetime());
 
+            services.Scan(scan =>
+               scan.FromAssemblyDependencies(Assembly.Load("Infrastructure"))
+                   .AddClasses(classes => classes.Where(t => t.Name.EndsWith("Service") &&
+                        t.Namespace == "Infrastructure.Service"))
+                   .AsImplementedInterfaces()
+                   .WithScopedLifetime());
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
@@ -68,7 +79,7 @@ namespace WebToDo
             {
                 x.SwaggerDoc("version 1", new OpenApiInfo()
                 {
-                    Title = "Web api",
+                    Title = "WebToDo",
                     Version = "version 1"
                 });
                 x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -93,7 +104,17 @@ namespace WebToDo
                 });
             });
 
-            services.AddDbContext<ToDoContext>(x => x.UseSqlServer(this.Configuration["ConnectionString:default"]));
+            services.AddDbContext<ToDoContext>(x => x.UseSqlServer(this.Configuration.GetConnectionString("default")));
+
+            services.AddSingleton<IMyAuthorizationServiceSingelton, MyAuthorizationServiceSingelton>();
+            services.AddSingleton(provider => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(
+                    new MapperProfile(
+                        provider.GetService<IMyAuthorizationServiceSingelton>()
+                        )
+                    );
+            }).CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

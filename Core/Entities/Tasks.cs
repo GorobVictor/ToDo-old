@@ -1,0 +1,32 @@
+﻿using Core.Entities.Base;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Core.Entities
+{
+    [Table("tasks")]
+    public class Tasks : BaseEntity
+    {
+        [Column("name")]
+        public string Name { get; set; }
+
+        [Column("description")]
+        public string Description { get; set; }
+
+        [Column("status")]
+        public bool Status { get; set; }
+
+        [Column("cosing_time")]
+        public DateTime? ClosingTime { get; set; }
+
+        [Column("user_id")]
+        public long UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public User User { get; set; }
+    }
+}

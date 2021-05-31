@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace WebToDo.Middleware
@@ -28,6 +29,7 @@ namespace WebToDo.Middleware
             catch (Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
+                context.Response.StatusCode = 500;
             }
         }
     }
