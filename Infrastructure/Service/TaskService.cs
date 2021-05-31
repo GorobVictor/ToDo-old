@@ -34,5 +34,23 @@ namespace Infrastructure.Service
         {
             return await this.taskRepo.AddAsync(this.mapper.Map<Tasks>(task));
         }
+
+        public async Task UpdateStatus(long taskId, bool status)
+        {
+            var task = await this.taskRepo.GetFirstAsync(x => x.Id == taskId);
+
+            if (status)
+            {
+                task.Status = status;
+                task.ClosingTime = DateTime.Now;
+            }
+            else
+            {
+                task.Status = status;
+                task.ClosingTime = null;
+            }
+
+            await this.taskRepo.UpdateAsync(task);
+        }
     }
 }

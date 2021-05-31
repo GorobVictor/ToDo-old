@@ -13,5 +13,7 @@ namespace Core.Interfaces.Service
         List<Tasks> GetAllTasks(long userId);
 
         Task<Tasks> AddTaskAsync(CreateTaskDto task);
+
+        Task UpdateStatus(long taskId, bool status);
     }
 }

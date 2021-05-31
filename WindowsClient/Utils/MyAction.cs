@@ -41,8 +41,8 @@ namespace WindowsClient.Utils
                 case "txt_password":
                     text = "Password";
                     break;
-                case "txtbox_RepeatPassword":
-                    text = "Повторите пароль";
+                case "txt_newTask":
+                    text = "Add to task";
                     break;
                 case "txtbox_Name":
                     text = "Имя";

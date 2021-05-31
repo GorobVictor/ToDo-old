@@ -68,20 +68,42 @@ namespace Infrastructure.Repositories
 
         public async Task UpdateAsync(List<TEntity> entities)
         {
-            Context.UpdateRange(entities);
+            foreach (var entity in entities)
+                this.Context.Entry(entity).State = EntityState.Modified;
 
-            this.DetachArray(entities);
+            await this.Context.SaveChangesAsync();
 
-            await Context.SaveChangesAsync();
+            foreach (var entity in entities)
+                this.Detach(entity);
         }
 
         public void Update(List<TEntity> entities)
         {
-            Context.UpdateRange(entities);
+            foreach(var entity in entities)
+                this.Context.Entry(entity).State = EntityState.Modified;
 
-            this.DetachArray(entities);
+            this.Context.SaveChanges();
 
-            Context.SaveChanges();
+            foreach (var entity in entities)
+                this.Detach(entity);
+        }
+
+        public async Task UpdateAsync(TEntity entity)
+        {
+            this.Context.Entry(entity).State = EntityState.Modified;
+
+            await this.Context.SaveChangesAsync();
+
+            this.Detach(entity);
+        }
+
+        public void Update(TEntity entity)
+        {
+            this.Context.Entry(entity).State = EntityState.Modified;
+
+            this.Context.SaveChanges();
+
+            this.Detach(entity);
         }
 
         public void DetachArray(IEnumerable<object> objects)

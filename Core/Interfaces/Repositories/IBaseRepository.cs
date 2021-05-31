@@ -24,5 +24,9 @@ namespace Core.Interfaces.Repositories
         Task UpdateAsync(List<TEntity> entities);
 
         void Update(List<TEntity> entities);
+
+        Task UpdateAsync(TEntity entities);
+
+        void Update(TEntity entities);
     }
 }

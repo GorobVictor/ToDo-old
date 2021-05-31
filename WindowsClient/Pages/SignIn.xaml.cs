@@ -24,6 +24,10 @@ namespace WindowsClient.Pages
         public SignIn()
         {
             InitializeComponent();
+#if DEBUG
+            txt_email.Text = "gorobchuk333@gmail.com";
+            txt_password.Text = "Victor83703030";
+#endif
         }
 
         private void MyGotFocus(object sender, RoutedEventArgs e)

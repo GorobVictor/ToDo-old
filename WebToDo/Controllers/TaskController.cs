@@ -44,5 +44,14 @@ namespace WebToDo.Controllers
 
             return BadRequest();
         }
+
+        [HttpPut]
+        [Route("{taskId}/update-status")]
+        public async Task<IActionResult> CreateTask(long taskId, bool status)
+        {
+            await this.taskSvc.UpdateStatus(taskId, status);
+
+            return Ok();
+        }
     }
 }

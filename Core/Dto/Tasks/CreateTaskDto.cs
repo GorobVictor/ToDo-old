@@ -9,6 +9,16 @@ namespace Core.Dto.Tasks
 {
     public class CreateTaskDto
     {
+        public CreateTaskDto()
+        {
+        }
+
+        public CreateTaskDto(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
