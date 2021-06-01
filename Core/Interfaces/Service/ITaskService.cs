@@ -15,5 +15,11 @@ namespace Core.Interfaces.Service
         Task<Tasks> AddTaskAsync(CreateTaskDto task);
 
         Task UpdateStatus(long taskId, bool status);
+
+        Task UpdateName(long taskId, string name);
+
+        Task<bool> Delete(long taskId);
+
+        Task<bool> Delete(List<long> taskId);
     }
 }

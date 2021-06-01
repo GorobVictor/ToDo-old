@@ -2,6 +2,8 @@
 using Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,16 +24,18 @@ namespace WindowsClient.Pages
     /// </summary>
     public partial class Main : Window
     {
-        List<Tasks> tasks { get; set; }
+        ObservableCollection<Tasks> tasksFalse { get; set; }
+        ObservableCollection<Tasks> tasksTrue { get; set; }
 
         public Main(User user)
         {
             InitializeComponent();
 
-            tasks = user.Tasks;
+            tasksFalse = new ObservableCollection<Tasks>(user.Tasks.Where(x => !x.Status));
+            tasksTrue = new ObservableCollection<Tasks>(user.Tasks.Where(x => x.Status));
 
-            grid_tasks.ItemsSource = tasks.Where(x => !x.Status);
-            grid_tasks_close.ItemsSource = tasks.Where(x => x.Status);
+            grid_tasksFalse.ItemsSource = tasksFalse;
+            grid_tasksTrue.ItemsSource = tasksTrue;
         }
 
         private void MyGotFocus(object sender, RoutedEventArgs e)
@@ -54,8 +58,8 @@ namespace WindowsClient.Pages
 
             task.Status = true;
 
-            grid_tasks.ItemsSource = tasks.Where(x => !x.Status);
-            grid_tasks_close.ItemsSource = tasks.Where(x => x.Status);
+            tasksFalse.Remove(task);
+            tasksTrue.Add(task);
         }
 
         private async void check_status_Unchecked(object sender, RoutedEventArgs e)
@@ -68,20 +72,50 @@ namespace WindowsClient.Pages
 
             task.Status = false;
 
-            grid_tasks.ItemsSource = tasks.Where(x => !x.Status);
-            grid_tasks_close.ItemsSource = tasks.Where(x => x.Status);
+            tasksTrue.Remove(task);
+            tasksFalse.Add(task);
         }
 
         private async void btn_addTask_Click(object sender, RoutedEventArgs e)
         {
-            tasks.Add(await MyRestClient.AddTask(new CreateTaskDto(txt_newTask.Text, string.Empty)));
-
-            grid_tasks.ItemsSource = tasks.Where(x => !x.Status);
-            grid_tasks_close.ItemsSource = tasks.Where(x => x.Status);
+            tasksFalse.Add(await MyRestClient.AddTask(new CreateTaskDto(txt_newTask.Text, string.Empty)));
 
             txt_newTask.Text = string.Empty;
 
             MyAction.MyLostFocus(txt_newTask);
+        }
+
+        private async void grid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            var tasks = e.EditingElement.DataContext as Tasks;
+
+            var textBox = e.EditingElement as TextBox;
+
+            if (tasks.Name != textBox.Text && !string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                await MyRestClient.UpdateTaskNameAsync(tasks.Id, textBox.Text);
+            }
+            else if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                textBox.Text = tasks.Name;
+            }
+        }
+
+        private async void grid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            var grid = sender as DataGrid;
+            if (Key.Delete == e.Key)
+            {
+                var tasks = new List<Tasks>();
+
+                foreach (var row in grid.SelectedItems)
+                {
+                    tasks.Add(row as Tasks);
+                }
+
+                if (tasks.Count() > 0)
+                    await MyRestClient.DeleteTask(tasks.Select(x => x.Id).ToList());
+            }
         }
     }
 }

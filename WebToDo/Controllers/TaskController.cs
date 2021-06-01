@@ -47,11 +47,40 @@ namespace WebToDo.Controllers
 
         [HttpPut]
         [Route("{taskId}/update-status")]
-        public async Task<IActionResult> CreateTask(long taskId, bool status)
+        public async Task<IActionResult> UpdateStatus(long taskId, bool status)
         {
             await this.taskSvc.UpdateStatus(taskId, status);
 
             return Ok();
+        }
+
+        [HttpPut]
+        [Route("{taskId}/update-name")]
+        public async Task<IActionResult> UpdateName(long taskId, string name)
+        {
+            await this.taskSvc.UpdateName(taskId, name);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("{taskId}/delete")]
+        public async Task<IActionResult> Delete(long taskId)
+        {
+            if (await this.taskSvc.Delete(taskId))
+                return Ok();
+            else
+                return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("delete")]
+        public async Task<IActionResult> Delete([FromBody]List<long> taskIds)
+        {
+            if (await this.taskSvc.Delete(taskIds))
+                return Ok();
+            else
+                return BadRequest();
         }
     }
 }

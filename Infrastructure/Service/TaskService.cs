@@ -52,5 +52,24 @@ namespace Infrastructure.Service
 
             await this.taskRepo.UpdateAsync(task);
         }
+
+        public async Task UpdateName(long taskId, string name)
+        {
+            var task = await this.taskRepo.GetFirstAsync(x => x.Id == taskId);
+
+            task.Name = name;
+
+            await this.taskRepo.UpdateAsync(task);
+        }
+
+        public async Task<bool> Delete(long taskId)
+        {
+            return await this.taskRepo.DeleteAsync(taskId);
+        }
+
+        public async Task<bool> Delete(List<long> taskId)
+        {
+            return await this.taskRepo.DeleteAsync(taskId);
+        }
     }
 }

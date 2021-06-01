@@ -28,5 +28,13 @@ namespace Core.Interfaces.Repositories
         Task UpdateAsync(TEntity entities);
 
         void Update(TEntity entities);
+
+        Task<bool> DeleteAsync(List<long> ids);
+
+        bool Delete(List<long> ids);
+
+        Task<bool> DeleteAsync(long id);
+
+        bool Delete(long id);
     }
 }
