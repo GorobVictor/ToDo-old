@@ -78,5 +78,11 @@ namespace Infrastructure.Context
                 }
             }
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Tasks>().HasQueryFilter(x => !x.Deleted);
+        }
     }
 }

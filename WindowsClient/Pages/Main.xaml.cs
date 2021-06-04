@@ -1,5 +1,6 @@
-﻿using Core.Dto.Tasks;
+﻿using Core.Dto.TasksDto;
 using Core.Entities;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -36,6 +37,19 @@ namespace WindowsClient.Pages
 
             grid_tasksFalse.ItemsSource = tasksFalse;
             grid_tasksTrue.ItemsSource = tasksTrue;
+
+            txt_Name.Content = user.FullName;
+
+            txt_Email.Content = user.Email;
+
+            var fullFilePath = @"https://lh3.googleusercontent.com/ogw/ADGmqu8noU9X7hY5d0quN0wAwo1WB6Ghh9T0u5tX-6oj=s83-c-mo";
+
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(fullFilePath, UriKind.Absolute);
+            bitmap.EndInit();
+
+            img_Photo.ImageSource = bitmap;
         }
 
         private void MyGotFocus(object sender, RoutedEventArgs e)
@@ -54,12 +68,15 @@ namespace WindowsClient.Pages
 
             var task = check.DataContext as Tasks;
 
-            await MyRestClient.UpdateTaskStatusAsync(task.Id, true);
+            if (task != null)
+            {
+                await MyRestClient.UpdateTaskStatusAsync(task.Id, true);
 
-            task.Status = true;
+                task.Status = true;
 
-            tasksFalse.Remove(task);
-            tasksTrue.Add(task);
+                tasksFalse.Remove(task);
+                tasksTrue.Add(task);
+            }
         }
 
         private async void check_status_Unchecked(object sender, RoutedEventArgs e)
@@ -68,12 +85,43 @@ namespace WindowsClient.Pages
 
             var task = check.DataContext as Tasks;
 
-            await MyRestClient.UpdateTaskStatusAsync(task.Id, false);
+            if (task != null)
+            {
+                await MyRestClient.UpdateTaskStatusAsync(task.Id, false);
 
-            task.Status = false;
+                task.Status = false;
 
-            tasksTrue.Remove(task);
-            tasksFalse.Add(task);
+                tasksTrue.Remove(task);
+                tasksFalse.Add(task);
+            }
+        }
+
+        private async void check_favorite_Checked(object sender, RoutedEventArgs e)
+        {
+            var check = sender as CheckBox;
+
+            var task = check.DataContext as Tasks;
+
+            if (task != null)
+            {
+                await MyRestClient.UpdateTaskFavoritesAsync(task.Id, true);
+
+                task.Favorite = true;
+            }
+        }
+
+        private async void check_favorite_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var check = sender as CheckBox;
+
+            var task = check.DataContext as Tasks;
+
+            if (task != null)
+            {
+                await MyRestClient.UpdateTaskFavoritesAsync(task.Id, false);
+
+                task.Favorite = false;
+            }
         }
 
         private async void btn_addTask_Click(object sender, RoutedEventArgs e)
@@ -115,6 +163,114 @@ namespace WindowsClient.Pages
 
                 if (tasks.Count() > 0)
                     await MyRestClient.DeleteTask(tasks.Select(x => x.Id).ToList());
+            }
+        }
+
+        private async void grid_DeleteClick(object sender, RoutedEventArgs e)
+        {
+            var menu = sender as MenuItem;
+
+            var contextmenu = menu.Parent as ContextMenu;
+
+            var grid = contextmenu.PlacementTarget as DataGrid;
+
+            var ids = new List<long>();
+
+            foreach (Tasks task in grid.SelectedItems)
+            {
+                await MyRestClient.DeleteTask(task.Id);
+                ids.Add(task.Id);
+            }
+
+            foreach (var id in ids)
+            {
+                var task = tasksFalse.FirstOrDefault(x => x.Id == id);
+                if (task != null)
+                    tasksFalse.Remove(task);
+                task = tasksTrue.FirstOrDefault(x => x.Id == id);
+                if (task != null)
+                    tasksTrue.Remove(task);
+            }
+        }
+
+        private async void grid_UpdateClick(object sender, RoutedEventArgs e)
+        {
+            columnDefinition_right.Width = new GridLength(200);
+
+            var menu = sender as MenuItem;
+
+            var contextmenu = menu.Parent as ContextMenu;
+
+            var grid = contextmenu.PlacementTarget as DataGrid;
+
+            if (grid.SelectedItems.Count > 0)
+            {
+                var task = grid.SelectedItems[0] as Tasks;
+
+                txt_taskName.Text = task.Name;
+                txt_taskName.DataContext = task;
+                check_taskStatus.IsChecked = task.Status;
+                check_taskStatus.DataContext = task;
+
+                window_Main_SizeChanged(sender, null);
+            }
+        }
+
+        private void openGrid_Click(object sender, RoutedEventArgs e)
+        {
+            if (grid_tasksTrue.Visibility == Visibility.Hidden)
+            {
+                var packIcon = new PackIcon();
+                packIcon.Kind = PackIconKind.ArrowDown;
+
+                openGrid.Content = packIcon;
+                grid_tasksTrue.Visibility = Visibility.Visible;
+            }
+            else if (grid_tasksTrue.Visibility == Visibility.Visible)
+            {
+                var packIcon = new PackIcon();
+                packIcon.Kind = PackIconKind.ArrowRight;
+
+                openGrid.Content = packIcon;
+                grid_tasksTrue.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void window_Main_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            grid_TableFalse.Width = window_Main.Width - grid_Left.ActualWidth - columnDefinition_right.Width.Value - 40;
+        }
+
+        private async void txt_taskName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                txt_taskName_LostFocus(sender, e);
+            }
+        }
+
+        private void txt_newTask_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btn_addTask_Click(sender, null);
+            }
+        }
+
+        private async void txt_taskName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var task = txt_taskName.DataContext as Tasks;
+
+            if (task != null && !string.IsNullOrWhiteSpace(txt_taskName.Text) && txt_taskName.Text != task.Name)
+            {
+                await MyRestClient.UpdateTaskNameAsync(task.Id, txt_taskName.Text);
+
+                task.Name = txt_taskName.Text;
+
+                grid_tasksFalse.ItemsSource = null;
+                grid_tasksTrue.ItemsSource = null;
+                grid_tasksFalse.ItemsSource = tasksFalse;
+                grid_tasksTrue.ItemsSource = tasksTrue;
             }
         }
     }

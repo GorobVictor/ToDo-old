@@ -1,4 +1,4 @@
-﻿using Core.Dto.Tasks;
+﻿using Core.Dto.TasksDto;
 using Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,8 @@ namespace Core.Interfaces.Service
         Task<Tasks> AddTaskAsync(CreateTaskDto task);
 
         Task UpdateStatus(long taskId, bool status);
+
+        Task UpdateFavorite(long taskId, bool favorite);
 
         Task UpdateName(long taskId, string name);
 

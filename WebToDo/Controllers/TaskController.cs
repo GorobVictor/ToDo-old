@@ -1,4 +1,4 @@
-﻿using Core.Dto.Tasks;
+﻿using Core.Dto.TasksDto;
 using Core.Interfaces;
 using Core.Interfaces.Service;
 using Microsoft.AspNetCore.Http;
@@ -50,6 +50,15 @@ namespace WebToDo.Controllers
         public async Task<IActionResult> UpdateStatus(long taskId, bool status)
         {
             await this.taskSvc.UpdateStatus(taskId, status);
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("{taskId}/update-favorite")]
+        public async Task<IActionResult> UpdateFavorite(long taskId, bool favorite)
+        {
+            await this.taskSvc.UpdateFavorite(taskId, favorite);
 
             return Ok();
         }

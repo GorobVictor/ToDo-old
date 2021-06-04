@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
             var result = this.Get(x => x.Email.ToLower() == user.Email.ToLower() && user.Password == user.Password);
 
             if (includeTasks)
-                result = result.Include(x => x.Tasks);
+                result = result.Include(x => x.Tasks.OrderByDescending(x => x.UpdatedAt).Take(200));
 
             return result.FirstOrDefault();
         }

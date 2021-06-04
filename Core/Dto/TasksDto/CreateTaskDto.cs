@@ -1,12 +1,15 @@
-﻿using System;
+﻿using AutoMapper;
+using Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Core.Dto.Tasks
+namespace Core.Dto.TasksDto
 {
+    [AutoMap(typeof(Tasks))]
     public class CreateTaskDto
     {
         public CreateTaskDto()

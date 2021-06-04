@@ -1,4 +1,4 @@
-﻿using Core.Dto.Tasks;
+﻿using Core.Dto.TasksDto;
 using Core.Dto.UserDto;
 using Core.Entities;
 using RestSharp;
@@ -14,7 +14,7 @@ namespace WindowsClient.Utils
 {
     class MyRestClient
     {
-        public static RestClient Client { get; set; } = new RestClient("https://localhost:44327/api");
+        public static RestClient Client { get; set; } = new RestClient("http://localhost/api");
 
         public static async Task<GetTokenResult> LoginAsync(UserAuth userAuth)
         {
@@ -57,6 +57,17 @@ namespace WindowsClient.Utils
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 throw new Exception("Not updated status");
+            }
+        }
+
+        public static async Task UpdateTaskFavoritesAsync(long taskId, bool favorite)
+        {
+
+            var request = new RestRequest($"task/{taskId}/update-favorite?favorite={favorite}", Method.PUT);
+            var response = await Client.ExecuteAsync(request);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new Exception("Not updated favorites");
             }
         }
 

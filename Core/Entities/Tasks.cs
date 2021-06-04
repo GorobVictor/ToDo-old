@@ -23,10 +23,19 @@ namespace Core.Entities
         [Column("cosing_time")]
         public DateTime? ClosingTime { get; set; }
 
+        [Column("favorites")]
+        public bool Favorite { get; set; }
+
         [Column("user_id")]
         public long UserId { get; set; }
 
         [ForeignKey("UserId")]
         public User User { get; set; }
+
+        [Column("task_group_id")]
+        public long? TaskGroupId { get; set; }
+
+        [ForeignKey("TaskGroupId")]
+        public TaskGroup TaskGroup { get; set; }
     }
 }

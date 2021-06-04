@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.Dto.Tasks;
+using Core.Dto.TasksDto;
 using Core.Dto.UserDto;
 using Core.Entities;
 using Core.Enum;
@@ -16,10 +16,6 @@ namespace Core.AutoMapper
     {
         public MapperProfile(IMyAuthorizationServiceSingelton myAuthorizationSvc)
         {
-            this.CreateMap<UserSignOut, User>()
-                .ForMember(x => x.Email, x => x.MapFrom(y => y.Email.ToLower()))
-                .ForMember(x => x.Role, x => x.MapFrom(y => UserRole.User));
-
             this.CreateMap<CreateTaskDto, Tasks>()
                 .ForMember(x => x.UserId, x => x.MapFrom(y => myAuthorizationSvc.UserIdAuthenticated))
                 .ForMember(x => x.Status, x => x.MapFrom(y => false))

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.Dto.Tasks;
+using Core.Dto.TasksDto;
 using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Service;
@@ -49,6 +49,15 @@ namespace Infrastructure.Service
                 task.Status = status;
                 task.ClosingTime = null;
             }
+
+            await this.taskRepo.UpdateAsync(task);
+        }
+
+        public async Task UpdateFavorite(long taskId, bool favorite)
+        {
+            var task = await this.taskRepo.GetFirstAsync(x => x.Id == taskId);
+
+            task.Favorite = favorite;
 
             await this.taskRepo.UpdateAsync(task);
         }

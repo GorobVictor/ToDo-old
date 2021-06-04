@@ -1,4 +1,6 @@
-﻿using Core.Enum;
+﻿using AutoMapper;
+using Core.Entities;
+using Core.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Core.Dto.UserDto
 {
+    [AutoMap(typeof(User))]
     public class UserSignOut
     {
         public string FirstName { get; set; }

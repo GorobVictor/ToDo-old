@@ -30,6 +30,9 @@ namespace Core.Entities
         [Column("password")]
         public string Password { get; set; }
 
+        [Column("photo")]
+        public string Photo { get; set; }
+
         [Column("role")]
         public UserRole Role { get; set; }
 
