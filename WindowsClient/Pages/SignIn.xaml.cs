@@ -26,7 +26,7 @@ namespace WindowsClient.Pages
             InitializeComponent();
 #if DEBUG
             txt_email.Text = "gorobchuk333@gmail.com";
-            txt_password.Text = "Victor83703030";
+            txt_password.Password = "Victor83703030";
 #endif
         }
 
@@ -44,8 +44,7 @@ namespace WindowsClient.Pages
         {
             var check = MyAction.CheckBox(new List<TextBox>()
             {
-                txt_email,
-                txt_password
+                txt_email
             });
 
             if (!check)
@@ -54,7 +53,7 @@ namespace WindowsClient.Pages
                 return;
             }
 
-            var response = await MyRestClient.LoginAsync(new UserAuth(txt_email.Text, txt_password.Text));
+            var response = await MyRestClient.LoginAsync(new UserAuth(txt_email.Text, txt_password.Password));
 
             if (response != null)
             {
@@ -65,6 +64,12 @@ namespace WindowsClient.Pages
             {
                 MessageBox.Show("Неверный логин или пароль", "Ошибка");
             }
+        }
+
+        private void btn_signUp_Click(object sender, RoutedEventArgs e)
+        {
+            new SignUp().Show();
+            this.Close();
         }
     }
 }

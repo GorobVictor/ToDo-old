@@ -19,13 +19,13 @@ namespace WebToDo.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        IUserService userRepo { get; set; }
+        IUserService userSvc { get; set; }
 
         public AccountController(
             IUserService userRepo
             )
         {
-            this.userRepo = userRepo;
+            this.userSvc = userRepo;
         }
 
         [AllowAnonymous]
@@ -38,20 +38,20 @@ namespace WebToDo.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("sign-out")]
-        public async Task<IActionResult> SignOut([FromBody] UserSignOut user)
+        [Route("sign-up")]
+        public async Task<IActionResult> SignUp([FromBody] UserSignUp user)
         {
-            var result = await this.userRepo.SignOut(user);
+            var result = await this.userSvc.SignUp(user);
 
             if (result != null)
-                return Ok();
+                return Ok(await GetIdentityAsync(new UserAuth(user.Email, user.Password)));
 
             return BadRequest();
         }
 
         private async Task<GetTokenResult> GetIdentityAsync(UserAuth user)
         {
-            var User = userRepo.GetUserByLoginAndPassword(user, true);
+            var User = userSvc.GetUserByLoginAndPassword(user, true);
 
             if (User != null)
             {

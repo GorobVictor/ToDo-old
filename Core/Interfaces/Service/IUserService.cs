@@ -12,6 +12,6 @@ namespace Core.Interfaces.Service
     {
         User GetUserByLoginAndPassword(UserAuth user, bool includeTasks = false);
 
-        Task<User> SignOut(UserSignOut user);
+        Task<User> SignUp(UserSignUp user);
     }
 }

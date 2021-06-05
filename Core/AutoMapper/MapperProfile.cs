@@ -20,6 +20,8 @@ namespace Core.AutoMapper
                 .ForMember(x => x.UserId, x => x.MapFrom(y => myAuthorizationSvc.UserIdAuthenticated))
                 .ForMember(x => x.Status, x => x.MapFrom(y => false))
                 .ForMember(x => x.ClosingTime, x => x.Ignore());
+
+            this.CreateMap<UserSignUp, User>();
         }
     }
 }

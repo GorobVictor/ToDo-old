@@ -57,7 +57,7 @@ namespace Infrastructure.Context
         private void AddTimestamps()
         {
             long userId;
-            if (context.HttpContext.Request.Path.Value.Contains("sign-out"))
+            if (context.HttpContext.Request.Path.Value.Contains("sign-up"))
                 userId = Constant.SystemId;
             else
                 userId = myAuthorizationSvc.UserIdAuthenticated;

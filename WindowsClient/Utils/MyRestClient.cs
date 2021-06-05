@@ -1,6 +1,9 @@
 ﻿using Core.Dto.TasksDto;
 using Core.Dto.UserDto;
 using Core.Entities;
+using Core.Enum;
+using Core.Utils;
+using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
@@ -9,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace WindowsClient.Utils
 {
@@ -26,6 +30,30 @@ namespace WindowsClient.Utils
             {
                 Client.Authenticator = new JwtAuthenticator(response.Data.Token);
                 return response.Data;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static async Task<GetTokenResult> SignUpAsync(UserSignUp userSignOut)
+        {
+
+            var request = new RestRequest("account/sign-up", Method.POST, RestSharp.DataFormat.Json)
+                .AddJsonBody(userSignOut);
+            var response = await Client.ExecuteAsync<GetTokenResult>(request);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                Client.Authenticator = new JwtAuthenticator(response.Data.Token);
+                return response.Data;
+            }
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                var error = JsonConvert.DeserializeObject<FriendlyException>(response.Content);
+
+                MessageBox.Show(error.Message);
+                return null;
             }
             else
             {

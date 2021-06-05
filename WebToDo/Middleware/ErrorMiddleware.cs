@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Core.Utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,12 @@ namespace WebToDo.Middleware
             try
             {
                 await Next.Invoke(context);
+            }
+            catch (FriendlyException ex)
+            {
+                context.Response.StatusCode = (int)ex.HttpCode;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(new { message = ex.Message, code = ex.Code, field = ex.Field }));
             }
             catch (Exception ex)
             {

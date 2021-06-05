@@ -1,4 +1,6 @@
-﻿using Core.Entities.Base;
+﻿using AutoMapper;
+using Core.Dto.UserDto;
+using Core.Entities.Base;
 using Core.Enum;
 using System;
 using System.Collections.Generic;

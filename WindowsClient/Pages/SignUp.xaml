@@ -1,0 +1,27 @@
+﻿<Window x:Class="WindowsClient.Pages.SignUp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindowsClient.Pages"
+        mc:Ignorable="d"
+        Title="SignUp" Height="450" Width="400" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="txt_firstName" HorizontalAlignment="Stretch" Margin="40,0,40,10" Text="First Name" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="25" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
+        <TextBox x:Name="txt_lastName" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="1" Text="Last Name" TextWrapping="Wrap" VerticalAlignment="Stretch" Height="25" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
+        <TextBox x:Name="txt_email" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="2" Text="Email" TextWrapping="Wrap" VerticalAlignment="Stretch" Height="25" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
+        <TextBox x:Name="txt_phone" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="3" Text="Phone" TextWrapping="Wrap" VerticalAlignment="Stretch" Height="25" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
+        <PasswordBox x:Name="pass_password" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="4" VerticalAlignment="Stretch" Height="25"/>
+        <PasswordBox x:Name="pass_passwordRepeat" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="5" VerticalAlignment="Stretch" Height="25"/>
+        <Button x:Name="btn_signUp" Content="Sign Up" Grid.Row="6" HorizontalAlignment="Stretch" Margin="40,10,40,0" VerticalAlignment="Top" Click="btn_signUp_Click"/>
+    </Grid>
+</Window>

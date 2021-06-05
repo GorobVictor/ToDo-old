@@ -42,14 +42,15 @@ namespace WindowsClient.Pages
 
             txt_Email.Content = user.Email;
 
-            var fullFilePath = @"https://lh3.googleusercontent.com/ogw/ADGmqu8noU9X7hY5d0quN0wAwo1WB6Ghh9T0u5tX-6oj=s83-c-mo";
+            if (!string.IsNullOrWhiteSpace(user.Photo))
+            {
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(user.Photo, UriKind.Absolute);
+                bitmap.EndInit();
 
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(fullFilePath, UriKind.Absolute);
-            bitmap.EndInit();
-
-            img_Photo.ImageSource = bitmap;
+                img_Photo.ImageSource = bitmap;
+            }
         }
 
         private void MyGotFocus(object sender, RoutedEventArgs e)
@@ -129,8 +130,6 @@ namespace WindowsClient.Pages
             tasksFalse.Add(await MyRestClient.AddTask(new CreateTaskDto(txt_newTask.Text, string.Empty)));
 
             txt_newTask.Text = string.Empty;
-
-            MyAction.MyLostFocus(txt_newTask);
         }
 
         private async void grid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)

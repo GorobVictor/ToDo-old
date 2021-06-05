@@ -44,17 +44,14 @@ namespace WindowsClient.Utils
                 case "txt_newTask":
                     text = "Add to task";
                     break;
-                case "txtbox_Name":
-                    text = "Имя";
+                case "txt_firstName":
+                    text = "First Name";
                     break;
-                case "txtbox_Surname":
-                    text = "Фамилия";
+                case "txt_lastName":
+                    text = "Last Name";
                     break;
-                case "txtbox_Email":
-                    text = "Емейл";
-                    break;
-                case "txtbox_Phone":
-                    text = "Номер телефона";
+                case "txt_phone":
+                    text = "Phone";
                     break;
             }
 

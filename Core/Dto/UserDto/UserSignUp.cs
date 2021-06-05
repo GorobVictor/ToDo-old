@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Core.Dto.UserDto
 {
     [AutoMap(typeof(User))]
-    public class UserSignOut
+    public class UserSignUp
     {
         public string FirstName { get; set; }
 
