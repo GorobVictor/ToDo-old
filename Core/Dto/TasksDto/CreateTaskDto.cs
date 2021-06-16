@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Core.Dto.TasksDto
 {
-    [AutoMap(typeof(Tasks))]
     public class CreateTaskDto
     {
         public CreateTaskDto()
@@ -26,7 +25,6 @@ namespace Core.Dto.TasksDto
 
         public string Description { get; set; }
 
-        [JsonIgnore]
         public long UserId { get; set; }
     }
 }

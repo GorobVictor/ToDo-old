@@ -39,7 +39,7 @@ namespace Infrastructure.Service
         protected void AssertAuthenticated()
         {
             this.ExtractClaims(true);
-            if (this.userId <= 0 || (int)this.role <= 0)
+            if (this.userId <= 0 || (int)this.role < 0)
             {
                 throw new Exception("Unauthorized");
             }

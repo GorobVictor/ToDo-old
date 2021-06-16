@@ -18,7 +18,7 @@ namespace WindowsClient.Utils
 {
     class MyRestClient
     {
-        public static RestClient Client { get; set; } = new RestClient("http://www.user15336.realhost-free.net/api");
+        public static RestClient Client { get; set; } = new RestClient("http://user15336.realhost-free.net/api/");
 
         public static async Task<GetTokenResult> LoginAsync(UserAuth userAuth)
         {
