@@ -18,7 +18,8 @@ namespace WindowsClient.Utils
 {
     class MyRestClient
     {
-        public static RestClient Client { get; set; } = new RestClient("http://user15336.realhost-free.net/api/");
+        //public static RestClient Client { get; set; } = new RestClient("http://www.user15336.realhost-free.net/api");
+        public static RestClient Client { get; set; } = new RestClient("http://localhost/api");
 
         public static async Task<GetTokenResult> LoginAsync(UserAuth userAuth)
         {
@@ -29,6 +30,21 @@ namespace WindowsClient.Utils
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 Client.Authenticator = new JwtAuthenticator(response.Data.Token);
+                return response.Data;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static async Task<User> ProfileAsync()
+        {
+
+            var request = new RestRequest("account/profile", Method.GET, RestSharp.DataFormat.Json);
+            var response = await Client.ExecuteAsync<User>(request);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
                 return response.Data;
             }
             else
@@ -57,6 +73,7 @@ namespace WindowsClient.Utils
             }
             else
             {
+                MessageBox.Show("Server error");
                 return null;
             }
         }

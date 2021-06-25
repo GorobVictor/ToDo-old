@@ -34,6 +34,11 @@ namespace Infrastructure.Service
             return this.userRepo.GetUserByLoginAndPassword(user, includeTasks);
         }
 
+        public User GetUserByUserId(long userId, bool includeTasks = false)
+        {
+            return this.userRepo.GetUserByUserId(userId, includeTasks);
+        }
+
         public async Task<User> SignUp(UserSignUp user)
         {
             user.Email = user.Email.ToLower();

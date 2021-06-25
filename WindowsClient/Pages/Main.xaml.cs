@@ -138,6 +138,9 @@ namespace WindowsClient.Pages
 
             var textBox = e.EditingElement as TextBox;
 
+            if (textBox == null)
+                return;
+
             if (tasks.Name != textBox.Text && !string.IsNullOrWhiteSpace(textBox.Text))
             {
                 await MyRestClient.UpdateTaskNameAsync(tasks.Id, textBox.Text);
@@ -271,6 +274,11 @@ namespace WindowsClient.Pages
                 grid_tasksFalse.ItemsSource = tasksFalse;
                 grid_tasksTrue.ItemsSource = tasksTrue;
             }
+        }
+
+        private void grid_tasksFalse_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+
         }
     }
 }

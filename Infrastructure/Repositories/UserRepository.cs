@@ -28,5 +28,15 @@ namespace Infrastructure.Repositories
 
             return result.FirstOrDefault();
         }
+
+        public User GetUserByUserId(long userId, bool includeTasks = false)
+        {
+            var result = this.Get(x => x.Id == userId);
+
+            if (includeTasks)
+                result = result.Include(x => x.Tasks.OrderByDescending(x => x.UpdatedAt).Take(200));
+
+            return result.FirstOrDefault();
+        }
     }
 }

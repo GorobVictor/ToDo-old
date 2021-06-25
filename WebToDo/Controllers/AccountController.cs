@@ -1,5 +1,6 @@
 ﻿using Core.Dto.UserDto;
 using Core.Entities;
+using Core.Interfaces;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Service;
 using Microsoft.AspNetCore.Authorization;
@@ -20,12 +21,15 @@ namespace WebToDo.Controllers
     public class AccountController : ControllerBase
     {
         IUserService userSvc { get; set; }
+        IMyAuthorizationServiceSingelton myAuthorizationSvc { get; set; }
 
         public AccountController(
-            IUserService userRepo
+            IUserService userRepo,
+            IMyAuthorizationServiceSingelton myAuthorizationSvc
             )
         {
             this.userSvc = userRepo;
+            this.myAuthorizationSvc = myAuthorizationSvc;
         }
 
         [AllowAnonymous]
@@ -49,9 +53,16 @@ namespace WebToDo.Controllers
             return BadRequest();
         }
 
+        [HttpGet]
+        [Route("profile")]
+        public async Task<IActionResult> Profile()
+        {
+            return Ok(this.userSvc.GetUserByUserId(this.myAuthorizationSvc.UserIdAuthenticated, includeTasks: true));
+        }
+
         private async Task<GetTokenResult> GetIdentityAsync(UserAuth user)
         {
-            var User = userSvc.GetUserByLoginAndPassword(user, true);
+            var User = userSvc.GetUserByLoginAndPassword(user, includeTasks: true);
 
             if (User != null)
             {

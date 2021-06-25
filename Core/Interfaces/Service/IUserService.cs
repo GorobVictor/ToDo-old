@@ -12,6 +12,8 @@ namespace Core.Interfaces.Service
     {
         User GetUserByLoginAndPassword(UserAuth user, bool includeTasks = false);
 
+        User GetUserByUserId(long userId, bool includeTasks = false);
+
         Task<User> SignUp(UserSignUp user);
     }
 }

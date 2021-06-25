@@ -1,6 +1,11 @@
-﻿using Core.Dto.UserDto;
+﻿using Core;
+using Core.Dto.UserDto;
+using Core.Model;
+using Newtonsoft.Json;
+using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +29,28 @@ namespace WindowsClient.Pages
         public SignIn()
         {
             InitializeComponent();
-#if DEBUG
-            txt_email.Text = "gorobchuk333@gmail.com";
-            txt_password.Password = "Victor83703030";
-#endif
+
+            if (File.Exists(Constant.SettingsFileName))
+                using (var stream = new StreamReader(Constant.SettingsFileName, Encoding.UTF8))
+                {
+                    var settings = JsonConvert.DeserializeObject<Settings>(stream.ReadToEnd());
+
+                    if (!string.IsNullOrWhiteSpace(settings.Token))
+                        AuthByToken(settings.Token);
+                }
+        }
+
+        async void AuthByToken(string token)
+        {
+            MyRestClient.Client.Authenticator = new JwtAuthenticator(token);
+
+            var user = await MyRestClient.ProfileAsync();
+
+            if (user == null)
+                return;
+
+            new Main(user).Show();
+            this.Close();
         }
 
         private void MyGotFocus(object sender, RoutedEventArgs e)
@@ -57,6 +80,10 @@ namespace WindowsClient.Pages
 
             if (response != null)
             {
+                if (check_save.IsChecked.HasValue && check_save.IsChecked.Value)
+                    using (var stream = new StreamWriter(Constant.SettingsFileName, false, Encoding.UTF8))
+                        stream.Write(JsonConvert.SerializeObject(new Settings(response.Token)));
+
                 new Main(response.User).Show();
                 this.Close();
             }

@@ -11,5 +11,7 @@ namespace Core.Interfaces.Repositories
     public interface IUserRepository : IBaseRepository<User>
     {
         User GetUserByLoginAndPassword(UserAuth user, bool includeTasks = false);
+
+        User GetUserByUserId(long userId, bool includeTasks = false);
     }
 }
