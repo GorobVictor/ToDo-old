@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage Visual="Material"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileClient.Pages.SignIn">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Entry x:Name="txt_email" HorizontalTextAlignment="Center" Margin="40,10,40,10" Placeholder="Email" HorizontalOptions="Fill" VerticalOptions="End"/>
+            <Entry x:Name="txt_password" IsPassword="True" HorizontalTextAlignment="Center" Margin="40,0,40,0" Grid.Row="1" Placeholder="Password" HorizontalOptions="Fill" VerticalOptions="End"/>
+            <Switch x:Name="check_show" Margin="0,10,40,0" Grid.Row="2" HorizontalOptions="End" Toggled="show_Password" VerticalOptions="Start"/>
+            <Button x:Name="btn_login" Text="sign in" Margin="40,55,40,0" Grid.Row="2" HorizontalOptions="Fill" VerticalOptions="Start" Clicked="btn_login_Click"/>
+            <Button x:Name="btn_signUp" Text="sign up" Margin="40,95,40,0" Grid.Row="2"  HorizontalOptions="Fill" VerticalOptions="Start"/>
+            <Switch x:Name="check_save" Margin="0,40,40,0" Grid.Row="2" HorizontalOptions="End" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

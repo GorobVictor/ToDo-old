@@ -115,6 +115,8 @@ namespace WebToDo
                         )
                     );
             }).CreateMapper());
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -122,14 +124,16 @@ namespace WebToDo
         {
             //if (env.IsDevelopment())
             //{
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/version 1/swagger.json", "Web api version 1"));
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/version 1/swagger.json", "Web api version 1"));
             //}
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod());
 
             app.UseMiddleware<ErrorMiddleware>();
 

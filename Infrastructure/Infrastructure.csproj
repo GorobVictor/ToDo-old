@@ -16,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utils\" />
+    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
 </Project>

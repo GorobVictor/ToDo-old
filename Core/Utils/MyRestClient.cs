@@ -14,12 +14,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace WindowsClient.Utils
+namespace Core.Utils
 {
-    class MyRestClient
+    public class MyRestClient
     {
-        //public static RestClient Client { get; set; } = new RestClient("http://www.user15336.realhost-free.net/api");
-        public static RestClient Client { get; set; } = new RestClient("http://localhost/api");
+        public static RestClient Client { get; set; } = new RestClient("http://user15336.realhost-free.net/api");
+        //public static RestClient Client { get; set; } = new RestClient("http://localhost/api");
 
         public static async Task<GetTokenResult> LoginAsync(UserAuth userAuth)
         {
@@ -68,12 +68,13 @@ namespace WindowsClient.Utils
             {
                 var error = JsonConvert.DeserializeObject<FriendlyException>(response.Content);
 
-                MessageBox.Show(error.Message);
+                //TODO: MessageBox
+                //MessageBox.Show(error.Message);
                 return null;
             }
             else
             {
-                MessageBox.Show("Server error");
+                //MessageBox.Show("Server error");
                 return null;
             }
         }
