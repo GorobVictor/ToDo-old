@@ -46,10 +46,9 @@ namespace MobileClient.Pages
             }
         }
 
-        private void btn_signUp_Click(object sender, EventArgs args)
+        private async void btn_signUp_Click(object sender, EventArgs args)
         {
-            //new SignUp().Show();
-            //this.Close();
+            await Navigation.PushModalAsync(new SignUp());
         }
 
         private void show_Password(object sender, ToggledEventArgs e)

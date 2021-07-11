@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileClient.Pages.SignUp">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Entry x:Name="txt_firstName" HorizontalTextAlignment="Center" Margin="40,0,40,10" Placeholder="First Name"  HorizontalOptions="Fill" VerticalOptions="End"/>
+            <Entry x:Name="txt_lastName" HorizontalTextAlignment="Center" Margin="40,10,40,10" Grid.Row="1" Placeholder="Last Name"  HorizontalOptions="Fill" VerticalOptions="End"/>
+            <Entry x:Name="txt_email" HorizontalTextAlignment="Center" Margin="40,10,40,10" Grid.Row="2" Placeholder="Email"  HorizontalOptions="Fill" VerticalOptions="End"/>
+            <Entry x:Name="txt_phone" HorizontalTextAlignment="Center" Margin="40,10,40,10" Grid.Row="3" Placeholder="Phone"  HorizontalOptions="Fill" VerticalOptions="End"/>
+            <Entry x:Name="pass_password" HorizontalTextAlignment="Center" Margin="40,10,40,10" Placeholder="Password"  Grid.Row="4"  HorizontalOptions="Fill" VerticalOptions="End"/>
+            <Entry x:Name="pass_passwordRepeat" HorizontalTextAlignment="Center" Margin="40,10,40,10" Placeholder="Repeat password"  Grid.Row="5"  HorizontalOptions="Fill" VerticalOptions="End"/>
+            <Button x:Name="btn_signUp" Text="Sign up" Grid.Row="6" Margin="40,10,40,0" Clicked="btn_signUp_Click" HorizontalOptions="Fill" VerticalOptions="Start"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
