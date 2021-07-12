@@ -15,7 +15,7 @@
             <Switch x:Name="check_show" Margin="0,10,40,0" Grid.Row="2" HorizontalOptions="End" Toggled="show_Password" VerticalOptions="Start"/>
             <Button x:Name="btn_login" Text="sign in" Margin="40,55,40,0" Grid.Row="2" HorizontalOptions="Fill" VerticalOptions="Start" Clicked="btn_login_Click"/>
             <Button x:Name="btn_signUp" Text="sign up" Margin="40,95,40,0" Grid.Row="2" HorizontalOptions="Fill" VerticalOptions="Start" Clicked="btn_signUp_Click"/>
-            <Switch x:Name="check_save" Margin="0,40,40,0" Grid.Row="2" HorizontalOptions="End" />
+            <Switch x:Name="check_save" Margin="0,40,40,0" Grid.Row="2" HorizontalOptions="End" Toggled="save_Token"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

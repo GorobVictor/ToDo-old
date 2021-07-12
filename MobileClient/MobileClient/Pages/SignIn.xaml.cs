@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Dto.UserDto;
 using Core.Utils;
+using MobileClient.Pages.MainPage;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,6 +20,8 @@ namespace MobileClient.Pages
             InitializeComponent();
         }
 
+        private bool SaveToken { get; set; }
+
         private async void btn_login_Click(object sender, EventArgs args)
         {
             if (string.IsNullOrWhiteSpace(txt_email.Text) || string.IsNullOrWhiteSpace(txt_password.Text))
@@ -31,14 +34,12 @@ namespace MobileClient.Pages
 
             if (response != null)
             {
-                //if (check_save.IsChecked.HasValue && check_save..Value)
-                //    using (var stream = new StreamWriter(Constant.SettingsFileName, false, Encoding.UTF8))
-                //        stream.Write(JsonConvert.SerializeObject(new Settings(response.Token)));
+                if (SaveToken)
+                    App.Current.Properties.Add("token", response.Token);
 
-                await DisplayAlert("Ok", response.User.FullName, "Ok");
+                var page = new NavigationPage(new MyMainPage(response.User));
 
-                //new Main(response.User).Show();
-                //this.Close();
+                await Navigation.PushModalAsync(page);
             }
             else
             {
@@ -54,6 +55,11 @@ namespace MobileClient.Pages
         private void show_Password(object sender, ToggledEventArgs e)
         {
             txt_password.IsPassword = !e.Value;
+        }
+
+        private void save_Token(object sender, ToggledEventArgs e)
+        {
+            SaveToken = e.Value;
         }
     }
 }

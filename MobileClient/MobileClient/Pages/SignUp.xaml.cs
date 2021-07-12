@@ -1,5 +1,6 @@
 ﻿using Core.Dto.UserDto;
 using Core.Utils;
+using MobileClient.Pages.MainPage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,9 +50,7 @@ namespace MobileClient.Pages
 
             if (user != null)
             {
-                //var window = new Main(user.User);
-                //window.Show();
-                //this.Close();
+                await Navigation.PushAsync(new MyMainPage(user.User));
             }
         }
 

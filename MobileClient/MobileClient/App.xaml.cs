@@ -1,4 +1,7 @@
-﻿using MobileClient.Pages;
+﻿using Core.Utils;
+using MobileClient.Pages;
+using MobileClient.Pages.MainPage;
+using RestSharp.Authenticators;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,7 +14,12 @@ namespace MobileClient
         {
             InitializeComponent();
 
-            MainPage = new SignIn();
+            App.Current.Properties.TryGetValue("token", out object token);
+
+            if (token == null)
+                MainPage = new SignIn();
+            else
+                MainPage = new MyMainPage(token.ToString());
         }
 
         protected override void OnStart()

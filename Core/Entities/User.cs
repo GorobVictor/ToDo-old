@@ -38,6 +38,8 @@ namespace Core.Entities
         [Column("role")]
         public UserRole Role { get; set; }
 
+        public List<TaskGroup> TaskGroups { get; set; }
+
         public List<Tasks> Tasks { get; set; }
     }
 }

@@ -17,6 +17,12 @@ namespace Core.Entities
         [Column("favorites")]
         public bool Favorite { get; set; }
 
+        [Column("user_id")]
+        public long UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public User User { get; set; }
+
         public List<Tasks> Tasks { get; set; }
     }
 }
