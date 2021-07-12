@@ -33,8 +33,8 @@ namespace WindowsClient.Pages
         {
             InitializeComponent();
 
-            tasksFalse = new ObservableCollection<Tasks>(user.Tasks.Where(x => !x.Status));
-            tasksTrue = new ObservableCollection<Tasks>(user.Tasks.Where(x => x.Status));
+            tasksFalse = new ObservableCollection<Tasks>(user/*.TaskGroups.FirstOrDefault(x => x.Name == "ToDo")*/.Tasks.Where(x => !x.Status));
+            tasksTrue = new ObservableCollection<Tasks>(user/*.TaskGroups.FirstOrDefault(x => x.Name == "ToDo")*/.Tasks.Where(x => x.Status));
 
             grid_tasksFalse.ItemsSource = tasksFalse;
             grid_tasksTrue.ItemsSource = tasksTrue;

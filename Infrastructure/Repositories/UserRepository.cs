@@ -37,7 +37,10 @@ namespace Infrastructure.Repositories
             var result = this.Get(x => x.Id == userId);
 
             if (includeTasks)
-                result = result.Include(x => x.Tasks.OrderByDescending(x => x.UpdatedAt).Take(200));
+                result = result
+                    .Include(x => x.Tasks.Where(x => !x.TaskGroupId.HasValue).OrderByDescending(x => x.UpdatedAt).Take(200))
+                    .Include(x => x.TaskGroups)
+                        .ThenInclude(x => x.Tasks.OrderByDescending(x => x.UpdatedAt).Take(200));
 
             return result.FirstOrDefault();
         }

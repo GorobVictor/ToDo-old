@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WindowsClient.Pages"
         mc:Ignorable="d"
         Title="SignIn" Height="423" Width="304" WindowStartupLocation="CenterScreen">
@@ -12,8 +13,8 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="txt_email" HorizontalAlignment="Stretch" Margin="40,10,40,10" Text="Email" TextWrapping="Wrap" VerticalAlignment="Bottom" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
-        <PasswordBox x:Name="txt_password" Margin="40,10,40,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <TextBox x:Name="txt_email" materialDesign:HintAssist.Hint="Email" HorizontalAlignment="Stretch" Margin="40,10,40,10" TextWrapping="Wrap" VerticalAlignment="Bottom"/>
+        <PasswordBox x:Name="txt_password" materialDesign:HintAssist.Hint="Password" Margin="40,10,40,0" VerticalAlignment="Top" Grid.Row="1"/>
         <Button x:Name="btn_login" Content="sign in" HorizontalAlignment="Stretch" Margin="40,35,40,0" VerticalAlignment="Top" Grid.Row="2" Click="btn_login_Click"/>
         <Button x:Name="btn_signUp" Content="sign up" HorizontalAlignment="Stretch" Margin="40,75,40,0" VerticalAlignment="Top" Grid.Row="2" Click="btn_signUp_Click" />
         <CheckBox x:Name="check_save" Content="Save password" HorizontalAlignment="Right" Margin="0,10,40,0" Grid.Row="2" VerticalAlignment="Top"/>

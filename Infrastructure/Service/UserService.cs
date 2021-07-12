@@ -19,13 +19,19 @@ namespace Infrastructure.Service
         IMapper mapper { get; set; }
 
         IUserRepository userRepo { get; set; }
+        ITaskRepository taskRepo { get; set; }
+        ITaskGroupRepository taskGroupRepo { get; set; }
 
         public UserService(
             IMapper mapper,
-            IUserRepository userRepo
+            IUserRepository userRepo,
+            ITaskRepository taskRepo,
+            ITaskGroupRepository taskGroupRepo
             )
         {
             this.userRepo = userRepo;
+            this.taskRepo = taskRepo;
+            this.taskGroupRepo = taskGroupRepo;
             this.mapper = mapper;
         }
 
@@ -48,7 +54,11 @@ namespace Infrastructure.Service
                 throw new FriendlyException("Email busy", "email", HttpStatusCode.BadRequest, ErrorCode.SignUp);
             }
 
-            return await userRepo.AddAsync(this.mapper.Map<User>(user));
+            var response = await userRepo.AddAsync(this.mapper.Map<User>(user));
+
+            await taskGroupRepo.AddAsync(new TaskGroup("ToDo", true, response.Id));
+
+            return response;
         }
     }
 }

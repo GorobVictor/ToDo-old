@@ -24,11 +24,11 @@ namespace WebToDo.Controllers
         IMyAuthorizationServiceSingelton myAuthorizationSvc { get; set; }
 
         public AccountController(
-            IUserService userRepo,
+            IUserService userSvc,
             IMyAuthorizationServiceSingelton myAuthorizationSvc
             )
         {
-            this.userSvc = userRepo;
+            this.userSvc = userSvc;
             this.myAuthorizationSvc = myAuthorizationSvc;
         }
 

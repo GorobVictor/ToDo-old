@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WindowsClient.Pages"
         mc:Ignorable="d"
         Title="SignUp" Height="450" Width="400" WindowStartupLocation="CenterScreen">
@@ -16,12 +17,12 @@
             <RowDefinition Height="45"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="txt_firstName" HorizontalAlignment="Stretch" Margin="40,0,40,10" Text="First Name" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="25" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
-        <TextBox x:Name="txt_lastName" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="1" Text="Last Name" TextWrapping="Wrap" VerticalAlignment="Stretch" Height="25" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
-        <TextBox x:Name="txt_email" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="2" Text="Email" TextWrapping="Wrap" VerticalAlignment="Stretch" Height="25" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
-        <TextBox x:Name="txt_phone" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="3" Text="Phone" TextWrapping="Wrap" VerticalAlignment="Stretch" Height="25" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
-        <PasswordBox x:Name="pass_password" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="4" VerticalAlignment="Stretch" Height="25"/>
-        <PasswordBox x:Name="pass_passwordRepeat" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="5" VerticalAlignment="Stretch" Height="25"/>
+        <TextBox x:Name="txt_firstName" materialDesign:HintAssist.Hint="First Name" HorizontalAlignment="Stretch" Margin="40,0,40,10" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="25"/>
+        <TextBox x:Name="txt_lastName" materialDesign:HintAssist.Hint="Last Name" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Stretch" Height="25"/>
+        <TextBox x:Name="txt_email" materialDesign:HintAssist.Hint="Email" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Stretch" Height="25"/>
+        <TextBox x:Name="txt_phone" materialDesign:HintAssist.Hint="Phone" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Stretch" Height="25"/>
+        <PasswordBox x:Name="pass_password" materialDesign:HintAssist.Hint="Password" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="4" VerticalAlignment="Stretch" Height="25"/>
+        <PasswordBox x:Name="pass_passwordRepeat" materialDesign:HintAssist.Hint="Repeat password" HorizontalAlignment="Stretch" Margin="40,10,40,10" Grid.Row="5" VerticalAlignment="Stretch" Height="25"/>
         <Button x:Name="btn_signUp" Content="Sign Up" Grid.Row="6" HorizontalAlignment="Stretch" Margin="40,10,40,0" VerticalAlignment="Top" Click="btn_signUp_Click"/>
     </Grid>
 </Window>

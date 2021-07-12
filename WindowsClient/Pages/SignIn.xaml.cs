@@ -54,16 +54,6 @@ namespace WindowsClient.Pages
             this.Close();
         }
 
-        private void MyGotFocus(object sender, RoutedEventArgs e)
-        {
-            MyAction.MyGotFocus(sender as TextBox);
-        }
-
-        private void MyLostFocus(object sender, RoutedEventArgs e)
-        {
-            MyAction.MyLostFocus(sender as TextBox);
-        }
-
         private async void btn_login_Click(object sender, RoutedEventArgs e)
         {
             var check = MyAction.CheckBox(new List<TextBox>()

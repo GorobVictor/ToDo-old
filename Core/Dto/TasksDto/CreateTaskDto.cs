@@ -25,5 +25,7 @@ namespace Core.Dto.TasksDto
         public string Description { get; set; }
 
         public long UserId { get; set; }
+
+        public long? TaskGroupId { get; set; }
     }
 }

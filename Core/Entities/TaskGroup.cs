@@ -11,6 +11,17 @@ namespace Core.Entities
     [Table("task_group")]
     public class TaskGroup : BaseEntity
     {
+        public TaskGroup()
+        {
+        }
+
+        public TaskGroup(string name, bool favorite, long userId)
+        {
+            Name = name;
+            Favorite = favorite;
+            UserId = userId;
+        }
+
         [Column("name")]
         public string Name { get; set; }
 
