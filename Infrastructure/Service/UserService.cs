@@ -57,6 +57,7 @@ namespace Infrastructure.Service
             var response = await userRepo.AddAsync(this.mapper.Map<User>(user));
 
             await taskGroupRepo.AddAsync(new TaskGroup("ToDo", true, response.Id));
+            await taskGroupRepo.AddAsync(new TaskGroup("All", true, response.Id));
 
             return response;
         }

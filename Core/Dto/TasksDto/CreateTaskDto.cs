@@ -14,10 +14,11 @@ namespace Core.Dto.TasksDto
         {
         }
 
-        public CreateTaskDto(string name, string description)
+        public CreateTaskDto(string name, string description, long? taskGroupId = null)
         {
-            Name = name;
-            Description = description;
+            this.Name = name;
+            this.Description = description;
+            this.TaskGroupId = taskGroupId;
         }
 
         public string Name { get; set; }

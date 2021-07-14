@@ -35,5 +35,7 @@ namespace Core.Entities
         public User User { get; set; }
 
         public List<Tasks> Tasks { get; set; }
+
+        public override string ToString() => this.Name;
     }
 }

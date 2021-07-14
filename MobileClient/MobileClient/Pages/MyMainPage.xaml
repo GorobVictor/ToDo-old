@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileClient.Pages.MyMainPage">
+    <FlyoutItem x:Name="flyout_group">
+        <ContentPage x:Name="content_task">
+            <ListView x:Name="listView"/>
+        </ContentPage>
+    </FlyoutItem>
+</Shell>

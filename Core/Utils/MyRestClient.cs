@@ -53,6 +53,21 @@ namespace Core.Utils
             }
         }
 
+        public static User Profile()
+        {
+
+            var request = new RestRequest("account/profile", Method.GET, RestSharp.DataFormat.Json);
+            var response = Client.Execute<User>(request);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return response.Data;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static async Task<GetTokenResult> SignUpAsync(UserSignUp userSignOut)
         {
 

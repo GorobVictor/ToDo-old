@@ -28,13 +28,14 @@ namespace WindowsClient.Pages
     {
         ObservableCollection<Tasks> tasksFalse { get; set; }
         ObservableCollection<Tasks> tasksTrue { get; set; }
+        User User { get; set; }
 
         public Main(User user)
         {
             InitializeComponent();
 
-            tasksFalse = new ObservableCollection<Tasks>(user/*.TaskGroups.FirstOrDefault(x => x.Name == "ToDo")*/.Tasks.Where(x => !x.Status));
-            tasksTrue = new ObservableCollection<Tasks>(user/*.TaskGroups.FirstOrDefault(x => x.Name == "ToDo")*/.Tasks.Where(x => x.Status));
+            tasksFalse = new ObservableCollection<Tasks>(user.TaskGroups.FirstOrDefault(x => x.Name == "ToDo").Tasks.Where(x => !x.Status));
+            tasksTrue = new ObservableCollection<Tasks>(user.TaskGroups.FirstOrDefault(x => x.Name == "ToDo").Tasks.Where(x => x.Status));
 
             grid_tasksFalse.ItemsSource = tasksFalse;
             grid_tasksTrue.ItemsSource = tasksTrue;
@@ -52,16 +53,12 @@ namespace WindowsClient.Pages
 
                 img_Photo.ImageSource = bitmap;
             }
-        }
 
-        private void MyGotFocus(object sender, RoutedEventArgs e)
-        {
-            MyAction.MyGotFocus(sender as TextBox);
-        }
+            user.TaskGroups.ForEach(x => listBox_groups.Items.Add(x));
 
-        private void MyLostFocus(object sender, RoutedEventArgs e)
-        {
-            MyAction.MyLostFocus(sender as TextBox);
+            listBox_groups.SelectedItem = user.TaskGroups.FirstOrDefault(x => x.Name == "ToDo");
+
+            User = user;
         }
 
         private async void check_status_Checked(object sender, RoutedEventArgs e)
@@ -128,7 +125,13 @@ namespace WindowsClient.Pages
 
         private async void btn_addTask_Click(object sender, RoutedEventArgs e)
         {
-            tasksFalse.Add(await MyRestClient.AddTask(new CreateTaskDto(txt_newTask.Text, string.Empty)));
+            var obj = listBox_groups.SelectedItem as TaskGroup;
+
+            var task = await MyRestClient.AddTask(new CreateTaskDto(txt_newTask.Text, string.Empty, obj.Id));
+
+            tasksFalse.Add(task);
+
+            obj.Tasks.Add(task);
 
             txt_newTask.Text = string.Empty;
         }
@@ -196,10 +199,8 @@ namespace WindowsClient.Pages
             }
         }
 
-        private async void grid_UpdateClick(object sender, RoutedEventArgs e)
+        private void grid_UpdateClick(object sender, RoutedEventArgs e)
         {
-            columnDefinition_right.Width = new GridLength(200);
-
             var menu = sender as MenuItem;
 
             var contextmenu = menu.Parent as ContextMenu;
@@ -214,8 +215,6 @@ namespace WindowsClient.Pages
                 txt_taskName.DataContext = task;
                 check_taskStatus.IsChecked = task.Status;
                 check_taskStatus.DataContext = task;
-
-                window_Main_SizeChanged(sender, null);
             }
         }
 
@@ -244,7 +243,7 @@ namespace WindowsClient.Pages
             grid_TableFalse.Width = window_Main.Width - grid_Left.ActualWidth - columnDefinition_right.Width.Value - 40;
         }
 
-        private async void txt_taskName_KeyDown(object sender, KeyEventArgs e)
+        private void txt_taskName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -280,6 +279,17 @@ namespace WindowsClient.Pages
         private void grid_tasksFalse_Sorting(object sender, DataGridSortingEventArgs e)
         {
 
+        }
+
+        private void listBox_groups_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var obj = listBox_groups.SelectedItem as TaskGroup;
+
+            tasksFalse = new ObservableCollection<Tasks>(obj.Tasks.Where(x => !x.Status));
+            tasksTrue = new ObservableCollection<Tasks>(obj.Tasks.Where(x => x.Status));
+
+            grid_tasksFalse.ItemsSource = tasksFalse;
+            grid_tasksTrue.ItemsSource = tasksTrue;
         }
     }
 }

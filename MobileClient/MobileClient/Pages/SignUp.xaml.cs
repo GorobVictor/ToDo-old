@@ -1,6 +1,5 @@
 ﻿using Core.Dto.UserDto;
 using Core.Utils;
-using MobileClient.Pages.MainPage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
