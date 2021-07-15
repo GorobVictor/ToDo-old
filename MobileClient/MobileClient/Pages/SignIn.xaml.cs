@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Dto.UserDto;
 using Core.Utils;
-
+using MobileClient.Pages.MainPage;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

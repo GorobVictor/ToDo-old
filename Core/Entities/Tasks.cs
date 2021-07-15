@@ -37,5 +37,7 @@ namespace Core.Entities
 
         [ForeignKey("TaskGroupId")]
         public TaskGroup TaskGroup { get; set; }
+
+        public override string ToString() => this.Name;
     }
 }

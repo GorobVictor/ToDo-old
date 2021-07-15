@@ -1,5 +1,6 @@
 ﻿using Core.Utils;
 using MobileClient.Pages;
+using MobileClient.Pages.MainPage;
 using RestSharp.Authenticators;
 using System;
 using Xamarin.Forms;

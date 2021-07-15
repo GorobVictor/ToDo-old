@@ -8,17 +8,16 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MobileClient.Pages
+namespace MobileClient.Pages.MainPage
 {
-    public partial class MyMainPage : Shell
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class TablePage : ContentPage
     {
-        public MyMainPage(User user)
+        public TablePage(TaskGroup taskGroup)
         {
             InitializeComponent();
 
-            flyout_group. = user.TaskGroups.ToList();
-
-            listView.ItemsSource = user.TaskGroups.Select(x => x.Name == "ToDo").ToList();
+            listView.ItemsSource = taskGroup.Tasks;
         }
     }
 }
