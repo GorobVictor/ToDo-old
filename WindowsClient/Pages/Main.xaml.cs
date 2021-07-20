@@ -38,8 +38,6 @@ namespace WindowsClient.Pages
             tasksFalse = new ObservableCollection<Tasks>(user.TaskGroups.FirstOrDefault(x => x.Name == "ToDo").Tasks.Where(x => !x.Status));
             tasksTrue = new ObservableCollection<Tasks>(user.TaskGroups.FirstOrDefault(x => x.Name == "ToDo").Tasks.Where(x => x.Status));
 
-            UpdateTable();
-
             txt_Name.Content = user.FullName;
 
             txt_Email.Content = user.Email;
@@ -60,18 +58,9 @@ namespace WindowsClient.Pages
 
             User = user;
 
-            var form = new GridResource(tasksFalse, tasksTrue);
+            
 
-            form.event_grid_UpdateClick += new EventHandler<RoutedEventArgs>(grid_UpdateClick);
-            form.event_grid_CellEditEnding += new EventHandler<DataGridCellEditEndingEventArgs>(grid_CellEditEnding);
-            form.event_grid_PreviewKeyDown += new EventHandler<KeyEventArgs>(grid_PreviewKeyDown);
-            form.event_grid_DeleteClick += new EventHandler<RoutedEventArgs>(grid_DeleteClick);
-            form.event_check_status_Checked += new EventHandler<RoutedEventArgs>(check_status_Checked);
-            form.event_check_status_Unchecked += new EventHandler<RoutedEventArgs>(check_status_Unchecked);
-            form.event_check_favorite_Checked += new EventHandler<RoutedEventArgs>(check_favorite_Checked);
-            form.event_check_favorite_Unchecked += new EventHandler<RoutedEventArgs>(check_favorite_Unchecked);
-
-            grid_TableFalse.Children.Add(form);
+            grid_TableFalse.Children.Add(GetItemsControlResource());
         }
 
         private async void check_status_Checked(object sender, RoutedEventArgs e)
@@ -275,14 +264,7 @@ namespace WindowsClient.Pages
                 await MyRestClient.UpdateTaskNameAsync(task.Id, txt_taskName.Text);
 
                 task.Name = txt_taskName.Text;
-
-                UpdateTable();
             }
-        }
-
-        private void grid_tasksFalse_Sorting(object sender, DataGridSortingEventArgs e)
-        {
-
         }
 
         private void listBox_groups_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -291,18 +273,34 @@ namespace WindowsClient.Pages
 
             tasksFalse = new ObservableCollection<Tasks>(obj.Tasks.Where(x => !x.Status));
             tasksTrue = new ObservableCollection<Tasks>(obj.Tasks.Where(x => x.Status));
-
-            UpdateTable();
         }
 
-        public void UpdateTable()
+        public GridResource GetGridResource()
         {
-            //grid_tasksFalse.ItemsSource = null;
-            //grid_tasksTrue.ItemsSource = null;
-            //grid_tasksFalse.ItemsSource = tasksFalse;
-            //itemControl_tasksFalse.ItemsSource = tasksFalse;
-            //grid_tasksTrue.ItemsSource = tasksTrue;
-            //itemControl_tasksTrue.ItemsSource = tasksTrue;
+            var form = new GridResource(tasksFalse, tasksTrue);
+
+            form.event_grid_UpdateClick += new EventHandler<RoutedEventArgs>(grid_UpdateClick);
+            form.event_grid_CellEditEnding += new EventHandler<DataGridCellEditEndingEventArgs>(grid_CellEditEnding);
+            form.event_grid_PreviewKeyDown += new EventHandler<KeyEventArgs>(grid_PreviewKeyDown);
+            form.event_grid_DeleteClick += new EventHandler<RoutedEventArgs>(grid_DeleteClick);
+            form.event_check_status_Checked += new EventHandler<RoutedEventArgs>(check_status_Checked);
+            form.event_check_status_Unchecked += new EventHandler<RoutedEventArgs>(check_status_Unchecked);
+            form.event_check_favorite_Checked += new EventHandler<RoutedEventArgs>(check_favorite_Checked);
+            form.event_check_favorite_Unchecked += new EventHandler<RoutedEventArgs>(check_favorite_Unchecked);
+
+            return form;
+        }
+
+        public ItemsControlResource GetItemsControlResource()
+        {
+            var form = new ItemsControlResource(tasksFalse, tasksTrue);
+
+            form.event_check_status_Checked += new EventHandler<RoutedEventArgs>(check_status_Checked);
+            form.event_check_status_Unchecked += new EventHandler<RoutedEventArgs>(check_status_Unchecked);
+            form.event_check_favorite_Checked += new EventHandler<RoutedEventArgs>(check_favorite_Checked);
+            form.event_check_favorite_Unchecked += new EventHandler<RoutedEventArgs>(check_favorite_Unchecked);
+
+            return form;
         }
     }
 }

@@ -23,16 +23,38 @@ namespace WindowsClient.Pages.MainPageResource
     {
         ObservableCollection<Tasks> tasksFalse { get; set; }
         ObservableCollection<Tasks> tasksTrue { get; set; }
-        User User { get; set; }
 
-        public ItemsControlResource(User user)
+        public event EventHandler<RoutedEventArgs> event_check_status_Checked;
+
+        public void check_status_Checked(object sender, RoutedEventArgs e)
+        {
+            event_check_status_Checked?.Invoke(sender, e);
+        }
+
+        public event EventHandler<RoutedEventArgs> event_check_status_Unchecked;
+
+        public void check_status_Unchecked(object sender, RoutedEventArgs e)
+        {
+            event_check_status_Unchecked?.Invoke(sender, e);
+        }
+
+        public event EventHandler<RoutedEventArgs> event_check_favorite_Checked;
+
+        public void check_favorite_Checked(object sender, RoutedEventArgs e)
+        {
+            event_check_favorite_Checked?.Invoke(sender, e);
+        }
+
+        public event EventHandler<RoutedEventArgs> event_check_favorite_Unchecked;
+
+        public void check_favorite_Unchecked(object sender, RoutedEventArgs e)
+        {
+            event_check_favorite_Unchecked?.Invoke(sender, e);
+        }
+
+        public ItemsControlResource(ObservableCollection<Tasks> tasksFalse, ObservableCollection<Tasks> tasksTrue)
         {
             InitializeComponent();
-
-            tasksFalse = new ObservableCollection<Tasks>(user.TaskGroups.FirstOrDefault(x => x.Name == "ToDo").Tasks.Where(x => !x.Status));
-            tasksTrue = new ObservableCollection<Tasks>(user.TaskGroups.FirstOrDefault(x => x.Name == "ToDo").Tasks.Where(x => x.Status));
-
-            User = user;
 
             itemControl_tasksFalse.ItemsSource = tasksFalse;
             itemControl_tasksTrue.ItemsSource = tasksTrue;

@@ -43,20 +43,30 @@ namespace Core.Entities
 
         public override string ToString() => this.Name;
 
-        public double BalanceTime()
+        [NotMapped]
+        public double BalanceTime
         {
-            if (!LeadTime.HasValue)
-                return 0;
+            get
+            {
+                if (!LeadTime.HasValue)
+                    return 0;
 
-            return (this.LeadTime - DateTime.Now).Value.TotalMilliseconds;
+                return (this.LeadTime - DateTime.Now).Value.TotalMilliseconds;
+            }
+            set { }
         }
 
-        public double AllTime()
+        [NotMapped]
+        public double AllTime
         {
-            if (!LeadTime.HasValue)
-                return 0;
+            get
+            {
+                if (!LeadTime.HasValue)
+                    return 0;
 
-            return (this.CreatedAt - DateTime.Now).TotalMilliseconds;
+                return (this.CreatedAt - DateTime.Now).TotalMilliseconds;
+            }
+            set { }
         }
     }
 }

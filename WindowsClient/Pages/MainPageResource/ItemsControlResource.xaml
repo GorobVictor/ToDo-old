@@ -6,74 +6,80 @@
         xmlns:local="clr-namespace:WindowsClient.Pages.MainPageResource"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Height="450" Width="800">
-    <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <ItemsControl Grid.RowSpan="1" x:Name="itemControl_tasksFalse" AllowDrop="True">
+        Height="auto" Width="auto">
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.RowSpan="1">
+            <ItemsControl x:Name="itemControl_tasksFalse">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="3" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-                <ItemsControl.Resources>
-                    <Style TargetType="{x:Type materialDesign:ColorZone}" BasedOn="{StaticResource {x:Type materialDesign:ColorZone}}">
-                        <Setter Property="Width" Value="96" />
-                        <Setter Property="Height" Value="96" />
-                        <Setter Property="Margin" Value="4" />
-                        <Setter Property="Mode" Value="PrimaryLight" />
-                    </Style>
-                </ItemsControl.Resources>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Red" Margin="10,10,10,10" BorderThickness="1">
+                        <Border BorderBrush="{StaticResource MaterialDesignValidationErrorBrush}" Margin="10,10,10,10" BorderThickness="1">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="10"/>
                                     <RowDefinition Height="*"/>
-                                    <RowDefinition Height="3"/>
+                                    <RowDefinition Height="5"/>
                                 </Grid.RowDefinitions>
-                                <Grid Grid.Row="0" Margin="0,0,0,0" Background="Red">
-
-                                </Grid>
+                                <Grid Grid.Row="0" Margin="0,0,0,0" Background="{StaticResource MaterialDesignValidationErrorBrush}"/>
                                 <Grid Grid.Row="1" Margin="5,5,5,5" Height="auto" Background="{StaticResource MaterialDesignBackground}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <CheckBox Width="auto" Grid.Column="0" Height="auto" IsChecked="{Binding Status}"/>
+                                    <CheckBox Width="auto" Grid.Column="0" Height="auto" IsChecked="{Binding Status}" Checked="check_status_Checked"/>
                                     <TextBlock Grid.Column="1" Text="{Binding Name}" TextWrapping="WrapWithOverflow"/>
-                                    <CheckBox Grid.Column="2" Width="auto" Height="auto" IsChecked="{Binding Favorite}"/>
+                                    <CheckBox Grid.Column="2" Width="auto" Height="auto" IsChecked="{Binding Favorite}" Checked="check_favorite_Checked" Unchecked="check_favorite_Unchecked"/>
                                 </Grid>
                                 <Grid Grid.Row="2" Height="auto" Margin="0,0,0,0" VerticalAlignment="Bottom" Background="{StaticResource MaterialDesignBackground}">
-                                    <ProgressBar Value="{Binding BalanceTime}" Maximum="{Binding AllTime}" Height="auto" VerticalAlignment="Bottom"/>
+                                    <ProgressBar Value="{Binding BalanceTime}" Maximum="{Binding AllTime}" Height="5" VerticalAlignment="Bottom"/>
                                 </Grid>
                             </Grid>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+        </Grid>
+        <Grid Grid.RowSpan="2" Grid.Row="1"  Width="auto">
             <ItemsControl Grid.Row="1" Grid.RowSpan="2" x:Name="itemControl_tasksTrue">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="4" />
+                        <UniformGrid Columns="3" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-                <ItemsControl.Resources>
-                    <Style TargetType="{x:Type materialDesign:ColorZone}" BasedOn="{StaticResource {x:Type materialDesign:ColorZone}}">
-                        <Setter Property="Width" Value="96" />
-                        <Setter Property="Height" Value="96" />
-                        <Setter Property="Margin" Value="4" />
-                        <Setter Property="Mode" Value="PrimaryLight" />
-                    </Style>
-                </ItemsControl.Resources>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Label Content="{Binding}"/>
+                        <Border BorderBrush="{StaticResource MaterialDesignBodyLight}" Margin="10,10,10,10" BorderThickness="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="5"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" Margin="0,0,0,0" Background="{StaticResource MaterialDesignBodyLight}"/>
+                                <Grid Grid.Row="1" Margin="5,5,5,5" Height="auto" Background="{StaticResource MaterialDesignBackground}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Width="auto" Grid.Column="0" Height="auto" IsChecked="{Binding Status}" Unchecked="check_status_Unchecked"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}" TextWrapping="WrapWithOverflow"/>
+                                    <CheckBox Grid.Column="2" Width="auto" Height="auto" IsChecked="{Binding Favorite}" Checked="check_favorite_Checked" Unchecked="check_favorite_Unchecked"/>
+                                </Grid>
+                                <Grid Grid.Row="2" Height="auto" Margin="0,0,0,0" VerticalAlignment="Bottom" Background="{StaticResource MaterialDesignBackground}">
+                                    <ProgressBar Value="80" Maximum="100" Height="5" VerticalAlignment="Bottom"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
