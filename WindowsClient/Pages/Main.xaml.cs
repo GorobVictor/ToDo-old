@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WindowsClient.Utils;
 using Core.Utils;
+using WindowsClient.Pages.MainPageResource;
 
 namespace WindowsClient.Pages
 {
@@ -37,8 +38,7 @@ namespace WindowsClient.Pages
             tasksFalse = new ObservableCollection<Tasks>(user.TaskGroups.FirstOrDefault(x => x.Name == "ToDo").Tasks.Where(x => !x.Status));
             tasksTrue = new ObservableCollection<Tasks>(user.TaskGroups.FirstOrDefault(x => x.Name == "ToDo").Tasks.Where(x => x.Status));
 
-            grid_tasksFalse.ItemsSource = tasksFalse;
-            grid_tasksTrue.ItemsSource = tasksTrue;
+            UpdateTable();
 
             txt_Name.Content = user.FullName;
 
@@ -59,6 +59,19 @@ namespace WindowsClient.Pages
             listBox_groups.SelectedItem = user.TaskGroups.FirstOrDefault(x => x.Name == "ToDo");
 
             User = user;
+
+            var form = new GridResource(tasksFalse, tasksTrue);
+
+            form.event_grid_UpdateClick += new EventHandler<RoutedEventArgs>(grid_UpdateClick);
+            form.event_grid_CellEditEnding += new EventHandler<DataGridCellEditEndingEventArgs>(grid_CellEditEnding);
+            form.event_grid_PreviewKeyDown += new EventHandler<KeyEventArgs>(grid_PreviewKeyDown);
+            form.event_grid_DeleteClick += new EventHandler<RoutedEventArgs>(grid_DeleteClick);
+            form.event_check_status_Checked += new EventHandler<RoutedEventArgs>(check_status_Checked);
+            form.event_check_status_Unchecked += new EventHandler<RoutedEventArgs>(check_status_Unchecked);
+            form.event_check_favorite_Checked += new EventHandler<RoutedEventArgs>(check_favorite_Checked);
+            form.event_check_favorite_Unchecked += new EventHandler<RoutedEventArgs>(check_favorite_Unchecked);
+
+            grid_TableFalse.Children.Add(form);
         }
 
         private async void check_status_Checked(object sender, RoutedEventArgs e)
@@ -127,7 +140,21 @@ namespace WindowsClient.Pages
         {
             var obj = listBox_groups.SelectedItem as TaskGroup;
 
-            var task = await MyRestClient.AddTask(new CreateTaskDto(txt_newTask.Text, string.Empty, obj.Id));
+            var date = date_leadTime.SelectedDate;
+
+            if (string.IsNullOrWhiteSpace(txt_newTask.Text))
+            {
+                MessageBox.Show("task name empty");
+                return;
+            }
+
+            if (date.HasValue && date.Value < DateTime.Now)
+            {
+                MessageBox.Show("The ultimate time should be more than the current");
+                return;
+            }
+
+            var task = await MyRestClient.AddTask(new CreateTaskDto(txt_newTask.Text, string.Empty, obj.Id, date));
 
             tasksFalse.Add(task);
 
@@ -199,7 +226,7 @@ namespace WindowsClient.Pages
             }
         }
 
-        private void grid_UpdateClick(object sender, RoutedEventArgs e)
+        public void grid_UpdateClick(object sender, RoutedEventArgs e)
         {
             var menu = sender as MenuItem;
 
@@ -215,26 +242,6 @@ namespace WindowsClient.Pages
                 txt_taskName.DataContext = task;
                 check_taskStatus.IsChecked = task.Status;
                 check_taskStatus.DataContext = task;
-            }
-        }
-
-        private void openGrid_Click(object sender, RoutedEventArgs e)
-        {
-            if (grid_tasksTrue.Visibility == Visibility.Hidden)
-            {
-                var packIcon = new PackIcon();
-                packIcon.Kind = PackIconKind.ArrowDown;
-
-                openGrid.Content = packIcon;
-                grid_tasksTrue.Visibility = Visibility.Visible;
-            }
-            else if (grid_tasksTrue.Visibility == Visibility.Visible)
-            {
-                var packIcon = new PackIcon();
-                packIcon.Kind = PackIconKind.ArrowRight;
-
-                openGrid.Content = packIcon;
-                grid_tasksTrue.Visibility = Visibility.Hidden;
             }
         }
 
@@ -269,10 +276,7 @@ namespace WindowsClient.Pages
 
                 task.Name = txt_taskName.Text;
 
-                grid_tasksFalse.ItemsSource = null;
-                grid_tasksTrue.ItemsSource = null;
-                grid_tasksFalse.ItemsSource = tasksFalse;
-                grid_tasksTrue.ItemsSource = tasksTrue;
+                UpdateTable();
             }
         }
 
@@ -288,8 +292,17 @@ namespace WindowsClient.Pages
             tasksFalse = new ObservableCollection<Tasks>(obj.Tasks.Where(x => !x.Status));
             tasksTrue = new ObservableCollection<Tasks>(obj.Tasks.Where(x => x.Status));
 
-            grid_tasksFalse.ItemsSource = tasksFalse;
-            grid_tasksTrue.ItemsSource = tasksTrue;
+            UpdateTable();
+        }
+
+        public void UpdateTable()
+        {
+            //grid_tasksFalse.ItemsSource = null;
+            //grid_tasksTrue.ItemsSource = null;
+            //grid_tasksFalse.ItemsSource = tasksFalse;
+            //itemControl_tasksFalse.ItemsSource = tasksFalse;
+            //grid_tasksTrue.ItemsSource = tasksTrue;
+            //itemControl_tasksTrue.ItemsSource = tasksTrue;
         }
     }
 }

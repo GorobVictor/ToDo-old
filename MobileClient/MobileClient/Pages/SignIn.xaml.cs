@@ -34,11 +34,14 @@ namespace MobileClient.Pages
             if (response != null)
             {
                 if (SaveToken)
+                {
+                    if (App.Current.Properties.ContainsKey("token"))
+                        App.Current.Properties.Remove("token");
+
                     App.Current.Properties.Add("token", response.Token);
+                }
 
-                var page = new NavigationPage(new MyMainPage(response.User));
-
-                await Navigation.PushModalAsync(page);
+                Application.Current.MainPage = new MyMainPage(response.User);
             }
             else
             {

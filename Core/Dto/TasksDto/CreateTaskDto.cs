@@ -14,11 +14,12 @@ namespace Core.Dto.TasksDto
         {
         }
 
-        public CreateTaskDto(string name, string description, long? taskGroupId = null)
+        public CreateTaskDto(string name, string description, long? taskGroupId = null, DateTime? leadTime = null)
         {
             this.Name = name;
             this.Description = description;
             this.TaskGroupId = taskGroupId;
+            this.LeadTime = leadTime;
         }
 
         public string Name { get; set; }
@@ -28,5 +29,7 @@ namespace Core.Dto.TasksDto
         public long UserId { get; set; }
 
         public long? TaskGroupId { get; set; }
+
+        public DateTime? LeadTime { get; set; }
     }
 }

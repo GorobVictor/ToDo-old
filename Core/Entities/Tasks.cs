@@ -29,15 +29,34 @@ namespace Core.Entities
         [Column("user_id")]
         public long UserId { get; set; }
 
-        [ForeignKey("UserId")]
-        public User User { get; set; }
-
         [Column("task_group_id")]
         public long? TaskGroupId { get; set; }
+
+        [Column("lead_time")]
+        public DateTime? LeadTime { get; set; }
+
+        [ForeignKey("UserId")]
+        public User User { get; set; }
 
         [ForeignKey("TaskGroupId")]
         public TaskGroup TaskGroup { get; set; }
 
         public override string ToString() => this.Name;
+
+        public double BalanceTime()
+        {
+            if (!LeadTime.HasValue)
+                return 0;
+
+            return (this.LeadTime - DateTime.Now).Value.TotalMilliseconds;
+        }
+
+        public double AllTime()
+        {
+            if (!LeadTime.HasValue)
+                return 0;
+
+            return (this.CreatedAt - DateTime.Now).TotalMilliseconds;
+        }
     }
 }
