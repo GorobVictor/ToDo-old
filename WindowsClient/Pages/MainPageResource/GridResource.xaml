@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WindowsClient.Pages.MainPageResource"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Height="450" Width="800">
+        Height="auto" Width="auto">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
